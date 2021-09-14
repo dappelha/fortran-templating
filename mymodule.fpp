@@ -1,5 +1,7 @@
 #! fypp for creating templated functions.
-#! python ranges are strictly less than, unlike fortran
+#! example usage: fypp mymodule.fpp mymodule.f90
+
+#! Remember, python ranges are strictly less than, unlike fortran
 #:set irange = range(1,4)
 #:set jrange = range(1,6)
 
@@ -24,12 +26,17 @@ contains
 #:endfor
     end select
 
+  end subroutine foo
+    
 #:for j in jrange  
 #:for i in irange    
   subroutine foo_${i}$_${j}$()
     implicit none
     integer, parameter :: i=${i}$, j=${j}$
     ! The code goes here.
+    #:include 'code_guts.f90'
   end subroutine foo_${i}$_${j}$
 #:endfor
 #:endfor
+
+end module mymodule
